@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,7 +11,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        children: <Widget>[Text('Home')],
+        children: <Widget>[
+          GoogleMap(
+              initialCameraPosition: CameraPosition(
+                  target: LatLng(6.6719625, -1.5886976),
+                  zoom: 16.4746,
+                  tilt: 59.4))
+        ],
       ),
     );
   }
