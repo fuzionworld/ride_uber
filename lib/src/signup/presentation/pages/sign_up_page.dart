@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ride_uber/src/core/data/static_data.dart';
-import 'package:ride_uber/src/core/presentation/widgets/LoadingDialog.dart';
-import 'package:ride_uber/src/core/presentation/widgets/brand_colors.dart';
-import 'package:ride_uber/src/login/pages/login_page.dart';
-import 'package:ride_uber/src/signup/presentation/bloc/sign_up_bloc.dart';
+import 'package:ride_uber/core/data/static_data.dart';
+import 'package:ride_uber/core/presentation/widgets/LoadingDialog.dart';
+import 'package:ride_uber/core/presentation/widgets/brand_colors.dart';
+import 'package:ride_uber/core/presentation/widgets/routes.dart';
+import 'package:ride_uber/core/presentation/widgets/taxi_btn.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -159,33 +159,17 @@ class _SignUpPageState extends State<SignUpPage> {
                               fontSize: 10.0)),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 34.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.height * 0.062,
-                        child: RaisedButton(
-                          textColor: Colors.white,
-                          color: BrandColors.colorGreen,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25)),
-                          onPressed: () => registerUser(
-                              emailController.text, passwordController.text),
-                          child: Text('REGISTER',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'Fira-Bold',
-                              )),
-                        ),
-                      ),
-                    ),
+                        padding: const EdgeInsets.only(top: 34.0),
+                        child: TaxiBtn(
+                          backColor: BrandColors.colorGreen,
+                          title: 'REGISTER',
+                          onPressed: () => {},
+                        )),
                     Padding(
                       padding: const EdgeInsets.all(18.0),
-                      child: FlatButton(
+                      child: TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
-                              (route) => false);
+                          Navigator.of(context).pushNamed(Routes.login);
                         },
                         child: Text('Already a rider?, login here!'),
                       ),

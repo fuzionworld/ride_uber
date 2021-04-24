@@ -2,9 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ride_uber/src/core/data/static_data.dart';
-import 'package:ride_uber/src/core/presentation/widgets/LoadingDialog.dart';
-import 'package:ride_uber/src/core/presentation/widgets/brand_colors.dart';
+import 'package:ride_uber/core/data/static_data.dart';
+import 'package:ride_uber/core/presentation/widgets/LoadingDialog.dart';
+import 'package:ride_uber/core/presentation/widgets/brand_colors.dart';
+import 'package:ride_uber/core/presentation/widgets/routes.dart';
+import 'package:ride_uber/core/presentation/widgets/taxi_btn.dart';
+import 'package:ride_uber/injection_container.dart';
+import 'package:ride_uber/src/login/presentation/bloc/login_bloc.dart';
 import 'package:ride_uber/src/signup/presentation/pages/sign_up_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,58 +18,61 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
+  final _bloc = sl<LoginBloc>();
 
   final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
 
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  UserCredential userCredential;
-  DatabaseReference databaseReference;
+  //UserCredential userCredential;
+  //DatabaseReference databaseReference;
 
-  void loginUser(String email, String password) async {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) => LoadingDialog(
-              status: 'Logging you in!',
-            ));
+  // void loginUser(String email, String password) async {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) => LoadingDialog(
+  //             status: 'Logging you in!',
+  //           ));
 
-    try {
-      userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case 'user-not-found':
-          showSnackBar('USER NOT FOUND');
-          Navigator.of(context).pop();
-          break;
-        case 'wrong-password':
-          showSnackBar('INVALID PASSWORD');
-          Navigator.of(context).pop();
-          break;
-        default:
-          Navigator.of(context).pop();
-          break;
-      }
-    } catch (e) {
-      PlatformException platformException = e;
-      showSnackBar(platformException.message);
-    } finally {
-      if (userCredential.user != null) {
-        databaseReference = FirebaseDatabase.instance
-            .reference()
-            .child('users/${userCredential.user.uid}');
+  //   try {
+  //     userCredential = await auth.signInWithEmailAndPassword(
+  //         email: email, password: password);
+  //     print('User HERE: ${userCredential.user}');
+  //   } on FirebaseAuthException catch (e) {
+  //     switch (e.code) {
+  //       case 'user-not-found':
+  //         showSnackBar('USER NOT FOUND');
+  //         Navigator.of(context).pop();
+  //         break;
+  //       case 'wrong-password':
+  //         showSnackBar('INVALID PASSWORD');
+  //         Navigator.of(context).pop();
+  //         break;
+  //       default:
+  //         Navigator.of(context).pop();
+  //         break;
+  //     }
+  //   } catch (e) {
+  //     PlatformException platformException = e;
+  //     showSnackBar(platformException.message);
+  //   } finally {
+  //     if (userCredential.user != null) {
+  //       databaseReference = FirebaseDatabase.instance
+  //           .reference()
+  //           .child('users/${userCredential.user.uid}');
 
-        databaseReference.once().then((DataSnapshot snapshot) {
-          if (snapshot.value != null) {
-            // push
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil('/home', (route) => false);
-          }
-        });
-      }
-    }
-  }
+  //       databaseReference.once().then((DataSnapshot snapshot) {
+  //         if (snapshot.value != null) {
+  //           print('DB SNAP: ${snapshot.value}');
+  //           // push
+  //           Navigator.of(context)
+  //               .pushNamedAndRemoveUntil('/home', (route) => false);
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
 
   void showSnackBar(String title) {
     final snackbar = SnackBar(
@@ -116,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                             color: BrandColors.colorLightGray, fontSize: 10.0)),
                   ),
                   TextField(
-                    controller: passwordController,
+                      controller: passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                           labelText: 'Password',
@@ -126,34 +133,17 @@ class _LoginPageState extends State<LoginPage> {
                               fontSize: 10.0))),
                   Padding(
                     padding: const EdgeInsets.only(top: 34.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      height: MediaQuery.of(context).size.height * 0.062,
-                      child: RaisedButton(
-                        textColor: Colors.white,
-                        color: BrandColors.colorGreen,
-                        splashColor: BrandColors.colorPrimaryDark,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25))),
-                        onPressed: () => loginUser(
-                            emailController.text, passwordController.text),
-                        child: Text(
-                          'LOGIN',
-                          style: TextStyle(
-                              fontSize: 18.0, fontFamily: 'Fira-Bold'),
-                        ),
-                      ),
+                    child: TaxiBtn(
+                      onPressed: () => {print('hey')},
+                      backColor: BrandColors.colorGreen,
+                      title: 'LOGIN',
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(18.0),
-                    child: FlatButton(
+                    child: TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => SignUpPage()),
-                            (route) => false);
+                        Navigator.of(context).pushNamed(Routes.signup);
                       },
                       child: Text(
                         'Not a user?, Sign up here!',

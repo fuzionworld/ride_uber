@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ride_uber/src/core/presentation/widgets/brand_colors.dart';
+import 'package:ride_uber/core/presentation/widgets/brand_colors.dart';
 
 class LoadingDialog extends StatelessWidget {
   final String status;
