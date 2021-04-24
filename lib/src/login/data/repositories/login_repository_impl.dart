@@ -1,6 +1,6 @@
 import 'package:ride_uber/core/error/exception.dart';
 import 'package:ride_uber/core/platform/network_info.dart';
-import 'package:ride_uber/core/user/domain/entities/User.dart';
+import 'package:ride_uber/core/user/domain/entities/user.dart';
 import 'package:ride_uber/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';

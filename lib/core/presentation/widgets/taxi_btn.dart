@@ -30,21 +30,3 @@ class TaxiBtn extends StatelessWidget {
     );
   }
 }
-
-/**
- *  RaisedButton(
-        textColor: Colors.white,
-        color: BrandColors.colorGreen,
-        splashColor: BrandColors.colorPrimaryDark,
-        shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.all(Radius.circular(25))),
-        onPressed: () => _bloc.userLogin(
-            emailController.text, passwordController.text),
-        child: Text(
-          'LOGIN',
-          style: TextStyle(
-              fontSize: 18.0, fontFamily: 'Fira-Bold'),
-        ),
-      ),
- */

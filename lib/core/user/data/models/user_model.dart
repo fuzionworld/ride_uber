@@ -1,4 +1,4 @@
-import 'package:ride_uber/core/user/domain/entities/User.dart';
+import 'package:ride_uber/core/user/domain/entities/user.dart';
 import 'package:meta/meta.dart';
 
 class UserModel extends User {

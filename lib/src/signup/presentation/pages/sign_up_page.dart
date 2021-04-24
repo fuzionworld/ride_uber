@@ -24,6 +24,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final phoneNumberController = TextEditingController();
 
   final passwordController = TextEditingController();
+  
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
   DatabaseReference dbRef;

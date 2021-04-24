@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:ride_uber/core/error/failures.dart';
 import 'package:ride_uber/core/usecases/usecase.dart';
 import 'package:meta/meta.dart';
-import 'package:ride_uber/core/user/domain/entities/User.dart';
+import 'package:ride_uber/core/user/domain/entities/user.dart';
 import 'package:ride_uber/src/login/domain/repositories/login_repository.dart';
 
 class Login implements UseCase<User, LoginParams> {
